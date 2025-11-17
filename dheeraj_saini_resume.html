@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dheeraj Saini | Automation Test Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Warm Neutrals with a Tech Blue Accent -->
+    <!-- Application Structure Plan: A single-page application with a sticky top navigation bar ("Profile", "Skills", "Experience", "Education"). This nav smoothly scrolls the user to the relevant section using JS. The structure is designed for a recruiter's workflow: 1. Who is this person? (Profile), 2. What can they do? (Skills), 3. Where have they proven it? (Experience), 4. What's their background? (Education). The Skills section uses an interactive chart and grouped cards for quick visual scanning. The Experience section uses a prominent "Stat Card" to highlight the key "40% reduction" metric, making his main achievement unmissable. This is far more scannable and impactful than a linear PDF. -->
+    <!-- Visualization & Content Choices: 
+        1. Info: Key Skills List -> Goal: Inform & Compare proficiency -> Viz/Method: Horizontal Bar Chart (Chart.js) & HTML/Tailwind Cards -> Interaction: Hover/Tooltip on chart -> Justification: A chart provides a rapid visual summary of strengths, more engaging than a list. Cards group skills logically. -> Library: Chart.js.
+        2. Info: "40% reduction in manual testing" -> Goal: Inform & Impress -> Viz/Method: A large "Stat Card" (HTML/Tailwind) -> Interaction: None (static callout) -> Justification: This is the candidate's most powerful metric and must be visually separated and emphasized, not buried in a bullet point. -> Library: HTML/Tailwind.
+        3. Info: Career History (HCL/Meta) -> Goal: Organize & Inform -> Viz/Method: Cleanly separated "Experience" and "Featured Project" cards (HTML/Tailwind) -> Interaction: None (static content) -> Justification: Separating the main role from the high-profile Meta project gives both the space they deserve and clarifies the relationship. -> Library: HTML/Tailwind.
+        4. Info: Navigation -> Goal: Organize & Enable non-linear exploration -> Viz/Method: Sticky Header Nav (HTML/Tailwind) -> Interaction: JS Click Listeners for smooth scroll, JS IntersectionObserver for active link highlighting (scroll-spy). -> Justification: Provides a modern, seamless SPA feel, allowing a busy recruiter to jump to the section they care about most. Active highlighting provides crucial user feedback. -> Library: Vanilla JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 60vh;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link.active {
+            color: #2563EB;
+            border-bottom-color: #2563EB;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #60A5FA 0%, #2563EB 100%);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-sm shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-center items-center h-16 space-x-4 md:space-x-8">
+                <a href="#profile" class="nav-link text-gray-600 hover:text-blue-600 font-semibold px-2 py-1">Profile</a>
+                <a href="#skills" class="nav-link text-gray-600 hover:text-blue-600 font-semibold px-2 py-1">Skills</a>
+                <a href="#experience" class="nav-link text-gray-600 hover:text-blue-600 font-semibold px-2 py-1">Experience</a>
+                <a href="#education" class="nav-link text-gray-600 hover:text-blue-600 font-semibold px-2 py-1">Education</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8 md:py-12">
+
+        <section id="profile" class="min-h-[80vh] flex flex-col justify-center items-center text-center pt-16 pb-24">
+            <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-4">Dheeraj Saini</h1>
+            <h2 class="text-2xl md:text-3xl font-semibold text-blue-600 mb-8">Software Engineer (Automation & SDET)</h2>
+            <p class="max-w-3xl text-lg text-gray-700 leading-relaxed mb-10">
+                A detail-oriented and proficient Automation Test Engineer with 3 years of hands-on experience in developing and executing automated testing for complex web applications. Proven ability to design and implement end-to-end automation scripts, integrate tests into CI/CD pipelines, and conduct thorough API testing.
+            </p>
+            <div class="flex flex-wrap justify-center gap-6 text-lg">
+                <span class="flex items-center text-gray-600">
+                    <span class="mr-2">📧</span> Dheeraj.sainihere913@gmail.com
+                </span>
+                <span class="flex items-center text-gray-600">
+                    <span class="mr-2">📞</span> +91 8053329648
+                </span>
+                <span class="flex items-center text-gray-600">
+                    <span class="mr-2">📍</span> Sonipat, Haryana, India
+                </span>
+            </div>
+        </section>
+
+        <section id="skills" class="py-16 md:py-24 bg-white rounded-xl shadow-lg">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-gray-900 mb-6">Skills Dashboard</h2>
+                <p class="text-lg text-center text-gray-600 max-w-2xl mx-auto mb-12">
+                    This section provides a visual overview of my technical competencies. The chart highlights key technologies and my relative experience, while the cards group my skills by domain.
+                </p>
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                    <div class="lg:col-span-3">
+                        <div class="chart-container">
+                            <canvas id="skillsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
+                        <div class="p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="font-semibold text-lg text-blue-700 mb-2">Test Automation</h3>
+                            <p class="text-gray-700">Selenium WebDriver, TestNG, Cucumber, JUnit</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="font-semibold text-lg text-blue-700 mb-2">API Testing</h3>
+                            <p class="text-gray-700">Postman, REST-Assured</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="font-semibold text-lg text-blue-700 mb-2">CI/CD & DevOps</h3>
+                            <p class="text-gray-700">Jenkins, Git, GitHub</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
+                            <h3 class="font-semibold text-lg text-blue-700 mb-2">Core & Support</h3>
+                            <p class="text-gray-700">Java, Maven, JIRA, Agile, Scrum</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-16 md:py-24">
+            <h2 class="text-4xl font-bold text-center text-gray-900 mb-6">Experience & Key Projects</h2>
+            <p class="text-lg text-center text-gray-600 max-w-3xl mx-auto mb-12">
+                My professional experience is centered on building scalable test solutions. Here is a breakdown of my role at HCLTech, my key achievements, and my involvement in a high-profile project for Meta.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div class="md:col-span-2 bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-1">Software Engineer</h3>
+                    <p class="text-lg text-blue-600 font-medium mb-2">HCLTech | Noida, India</p>
+                    <p class="text-md text-gray-500 mb-6">09/2022 - Present</p>
+                    
+                    <ul class="list-disc list-outside pl-5 space-y-3 text-gray-700 leading-relaxed">
+                        <li>Developed and maintained a scalable test automation framework using Selenium WebDriver, Java, and TestNG.</li>
+                        <li>Authored and executed comprehensive automated test scripts for end-to-end testing of user interface workflows, ensuring cross-browser compatibility.</li>
+                        <li>Conducted backend API testing using Postman to validate RESTful services, ensuring data integrity.</li>
+                        <li>Integrated automated test suites into the CI/CD pipeline using Jenkins for continuous testing.</li>
+                        <li>Utilized Cucumber to implement Behavior-Driven Development (BDD), fostering clearer communication.</li>
+                        <li>Managed defect tracking with JIRA and collaborated closely with developers in an Agile environment.</li>
+                    </ul>
+                </div>
+                
+                <div class="stat-card flex flex-col justify-center items-center p-8 rounded-xl shadow-2xl text-white text-center">
+                    <span class="text-7xl md:text-8xl font-bold">40%</span>
+                    <span class="text-xl md:text-2xl font-semibold mt-2">Reduction</span>
+                    <p class="text-lg text-blue-100 mt-2 leading-tight">in manual testing efforts through the development of a scalable automation framework.</p>
+                </div>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-2">Featured Project: Test Automation for Nebula (Meta AR/VR)</h3>
+                <p class="text-md text-gray-700 leading-relaxed">
+                    As part of the HCLTech team working on Meta's Nebula project, I was responsible for the automation testing of AR/VR web-based applications. My role involved validating interactive 3D content, UI workflows, and backend APIs using a combination of Selenium, Java, and Postman. This work ensured the quality and performance of the software across immersive AR/VR environments and standard web platforms through efficient test automation and CI/CD integration.
+                </p>
+            </div>
+        </section>
+
+        <section id="education" class="py-16 md:py-24">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-4xl font-bold text-gray-900 mb-12">Education</h2>
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-left">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-1">Bachelor of Computer Applications (BCA)</h3>
+                    <p class="text-lg text-blue-600 font-medium">Amity University | Noida, India</to>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-8 text-center">
+        <p>Interactive resume created based on source PDF for Dheeraj Saini.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const skillsChartCtx = document.getElementById('skillsChart').getContext('2d');
+            const skillsChart = new Chart(skillsChartCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Selenium', 'Java', 'TestNG', 'API Testing (Postman)', 'CI/CD (Jenkins)', 'Cucumber (BDD)', 'Git', 'Agile/Scrum'],
+                    datasets: [{
+                        label: 'Experience & Proficiency',
+                        data: [95, 90, 85, 90, 80, 75, 85, 90],
+                        backgroundColor: [
+                            'rgba(37, 99, 235, 0.7)',
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(96, 165, 250, 0.7)',
+                            'rgba(147, 197, 253, 0.7)',
+                            'rgba(191, 219, 254, 0.7)',
+                            'rgba(219, 234, 254, 0.7)',
+                            'rgba(165, 180, 252, 0.7)',
+                            'rgba(199, 210, 254, 0.7)'
+                        ],
+                        borderColor: [
+                            '#2563EB',
+                            '#3B82F6',
+                            '#60A5FA',
+                            '#93C5FD',
+                            '#BFDBFE',
+                            '#DBEAFE',
+                            '#A5B4FC',
+                            '#C7D2FE'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.x + '%';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%'
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 14,
+                                    weight: '600'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const navLinks = document.querySelectorAll('a.nav-link');
+            const sections = document.querySelectorAll('section');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', e => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const topOffset = targetElement.offsetTop - 64;
+                        window.scrollTo({
+                            top: topOffset,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-64px 0px -50% 0px',
+                threshold: 0
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.getAttribute('id');
+                    const navLink = document.querySelector(`.nav-link[href="#${id}"]`);
+
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        if (navLink) {
+                            navLink.classList.add('active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            if (navLinks.length > 0) {
+                navLinks[0].classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
