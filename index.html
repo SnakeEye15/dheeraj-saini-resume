@@ -80,7 +80,7 @@
             opacity: 0.1; /* Subtle grid pattern */
         }
 
-        /* Timeline Connector */
+        /* TIMELINE FIXES: Connector, Dot, and List Item Padding */
         .timeline-connector {
             position: absolute;
             top: 0;
@@ -91,13 +91,23 @@
         }
         .timeline-dot {
             position: absolute;
-            left: 8px;
+            left: 8px; 
+            top: 3px; /* Adjusted vertical alignment */
             width: 20px;
             height: 20px;
             background-color: #58a6ff;
             border: 3px solid #0d1117;
             border-radius: 50%;
             z-index: 10;
+        }
+        /* New class to prevent overlap */
+        .timeline-list-item {
+            position: relative; 
+            padding-left: 35px; /* Pushes text past the dot position */
+            margin-bottom: 12px;
+        }
+        .timeline-list-item:last-child {
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -201,29 +211,29 @@
                     <div class="relative pl-8">
                         <div class="timeline-connector"></div>
                         
-                        <ul class="space-y-6 text-gray-400 leading-relaxed">
-                            <li class="relative">
-                                <span class="timeline-dot top-1"></span>
+                        <ul class="space-y-3 text-gray-400 leading-relaxed">
+                            <li class="timeline-list-item">
+                                <span class="timeline-dot"></span>
                                 Developed and maintained a scalable test automation framework using <strong class="text-blue-300">Selenium WebDriver, Java, and TestNG</strong>.
                             </li>
-                            <li class="relative">
-                                <span class="timeline-dot top-1"></span>
+                            <li class="timeline-list-item">
+                                <span class="timeline-dot"></span>
                                 Authored and executed comprehensive automated test scripts for end-to-end UI workflows.
                             </li>
-                            <li class="relative">
-                                <span class="timeline-dot top-1"></span>
+                            <li class="timeline-list-item">
+                                <span class="timeline-dot"></span>
                                 Conducted backend API testing using <strong class="text-blue-300">Postman</strong> to validate RESTful services.
                             </li>
-                            <li class="relative">
-                                <span class="timeline-dot top-1"></span>
+                            <li class="timeline-list-item">
+                                <span class="timeline-dot"></span>
                                 Integrated automated test suites into the <strong class="text-blue-300">CI/CD pipeline using Jenkins</strong> for continuous testing.
                             </li>
-                            <li class="relative">
-                                <span class="timeline-dot top-1"></span>
+                            <li class="timeline-list-item">
+                                <span class="timeline-dot"></span>
                                 Utilized <strong class="text-blue-300">Cucumber</strong> to implement Behavior-Driven Development (BDD).
                             </li>
-                            <li class="relative">
-                                <span class="timeline-dot top-1"></span>
+                            <li class="timeline-list-item">
+                                <span class="timeline-dot"></span>
                                 Managed defect tracking with <strong class="text-blue-300">JIRA</strong> in an Agile environment.
                             </li>
                         </ul>
